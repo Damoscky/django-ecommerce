@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.INFO: '',
+    50: 'critical',
+}
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -124,3 +130,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# EMAIL_HOST:"smtp.gmail.com"
+# EMAIL_HOST_USER:"akindamoscki@gmail.com"
+# EMAIL_USE_TLS: True
+# DEFAULT_FROM_EMAIL:"akindamoscki@gmail.com"
+# EMAIL_PORT: 465
+# EMAIL_HOST_PASSWORD:"bygxukziwutiwllf"

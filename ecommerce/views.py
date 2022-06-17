@@ -1,5 +1,8 @@
-
-from email import message
+from queue import Empty
+from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm  
 import datetime
 from math import prod
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -8,6 +11,7 @@ from .models import Product
 from django.conf import settings
 from .models import Cart, Category, SubCategory
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 
 #Authentication
@@ -15,11 +19,42 @@ def login(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(request, username=username, password=password)
-    if user is not None:
-        login(request, user)
-        return HttpResponse("Login successfully")
+    if user == None:
+        messages.error(request, "Invalid username or Password")
+        return render(request, 'auth/login-page.html')
     else:
-        return message.error(request, "Invalid username or Password")
+        messages.success(request, "You're logged in successfully")
+        return HttpResponse(user)
+
+
+def signUp(request):
+    if not User.objects.filter(email = email).exists():
+        user = User(
+            username=request.POST['username'], 
+            email=request.POST['email'], 
+            password=request.POST['password'],
+            first_name = request.POST['firstname'],
+            last_name = request.POST['lastname']
+        )
+        user.save()    
+        if user == None:
+            messages.warning(request, 'Record not created')
+
+        else:
+            return HttpResponse("Herlrl")
+    # if user == None:
+    #     messages.error(request, "User not created")
+    #     return render(request, "auth/create-account.html")
+    # else:
+    #     messages.success(request, "Account created successfully")
+    #     return render(request, "auth/create-account.html")
+
+def loginPage(request):
+    return render(request, 'auth/login-page.html')
+
+
+def createAccount(request):
+    return render(request, 'auth/create-account.html')
 
 
 def index(request):

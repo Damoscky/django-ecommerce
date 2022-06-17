@@ -20,6 +20,9 @@ from ecommerce import views
 urlpatterns = [
     path('auth/', include([
             path('login/', views.login),
+            path('login-page/', views.loginPage),
+            path('create-account/', views.createAccount),
+            path('sign-up/', views.signUp)
     ])),
     
     path('admin/', admin.site.urls),
