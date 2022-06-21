@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm  
 import datetime
 from math import prod
+from django.forms import EmailField
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .models import Product
@@ -24,11 +25,17 @@ def login(request):
         return render(request, 'auth/login-page.html')
     else:
         messages.success(request, "You're logged in successfully")
-        return HttpResponse(user)
+        return render(request, '')
 
 
 def signUp(request):
-    if not User.objects.filter(email = email).exists():
+    usernameExist = User.objects.filter(username = request.POST['username']).exists()
+    emailExist = User.objects.filter(email = request.POST['email']).exists()
+    if usernameExist:
+        messages.warning(request, 'Username already exist')
+        return render(request, "auth/create-account.html")
+
+    if not emailExist:
         user = User(
             username=request.POST['username'], 
             email=request.POST['email'], 
@@ -39,9 +46,14 @@ def signUp(request):
         user.save()    
         if user == None:
             messages.warning(request, 'Record not created')
-
+            return render(request, "auth/create-account.html")
         else:
-            return HttpResponse("Herlrl")
+            messages.success(request, 'Record created successfully')
+            return render(request, "auth/create-account.html")
+    else:
+        messages.warning(request, 'Email already exist')
+        return render(request, "auth/create-account.html")
+
     # if user == None:
     #     messages.error(request, "User not created")
     #     return render(request, "auth/create-account.html")
@@ -74,7 +86,8 @@ def productQuickView(request, id):
     try:
         product = Product.objects.get(pk=id)
     except:
-        return message.error(request, "Invalid username or Password")
+        messages.error(request, "Invalid username or Password")
+        return render(request, 'home/index.html')
     return render(request, 'home/product-quick-view.html', {'product': product})
 
 
