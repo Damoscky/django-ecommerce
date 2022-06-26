@@ -81,7 +81,7 @@ class Cart(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.user_id
+        return f'{self.user_id.username} - {self.quantity}'
 
 
 

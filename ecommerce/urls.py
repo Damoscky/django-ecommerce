@@ -30,7 +30,7 @@ urlpatterns = [
 
     path('products/', views.allProducts),
     path('product-quick-view/<int:id>', views.productQuickView),
-    path('contact/', views.contact),
     path('product-details/<int:id>', views.productDetails),
+    path('contact/', views.contact),
     path('cart/store/<int:id>', views.addToCart),
 ]
