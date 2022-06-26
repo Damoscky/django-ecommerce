@@ -104,6 +104,16 @@
             	<div class="heading_tab_header">
                     <div class="heading_s2">
                         <h2>Exclusive Products</h2>
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ message }} 
+                                    </div>
+                                    
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                     </div>
                     <div class="tab-style2">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tabmenubar" aria-expanded="false"> 
@@ -140,12 +150,12 @@
                                             <span class="pr_flash bg-success">Sale</span>
                                         {% endif %}
                                         <div class="product_img">
-                                            <a href="shop-product-detail.html">
+                                            <a href="/product-details/{{newProduct.id}}">
                                                 <img src="{{newProduct.image}}" alt="product_img1">
                                             </a>
                                             <div class="product_action_box">
                                                 <ul class="list_none pr_action_btn">
-                                                    <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
+                                                    <li class="add-to-cart"><a href="/cart/store/{{newProduct.id}}"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
                                                     <li><a href="shop-compare.html" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
                                                     <li><a href="/product-quick-view/{{newProduct.id}}" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
                                                     <li><a href="#"><i class="icon-heart"></i></a></li>
@@ -153,10 +163,10 @@
                                             </div>
                                         </div>
                                         <div class="product_info">
-                                            <h6 class="product_title"><a href="shop-product-detail.html">{{newProduct.name}}</a></h6>
+                                            <h6 class="product_title"><a href="/product-details/{{newProduct.id}}">{{newProduct.name}}</a></h6>
                                             <div class="product_price">
-                                                <span class="price">₦{{newProduct.new_price|floatformat:2|intcomma}}</span>
-                                                <del>₦{{newProduct.old_price|floatformat:2|intcomma}}</del>
+                                                <span class="price">£{{newProduct.new_price|floatformat:2|intcomma}}</span>
+                                                <del>£{{newProduct.old_price|floatformat:2|intcomma}}</del>
                                                 <div class="on_sale">
                                                     <span>
                                                         {{newProduct.price_diff}}% Off</span>
@@ -489,7 +499,7 @@
                                             <span class="pr_flash bg-success">Sale</span>
                                         {% endif %}
                                         <div class="product_img">
-                                            <a href="shop-product-detail.html">
+                                            <a href="/product-details/{{product.id}}">
                                                 <img src="{{product.image}}" alt="product_img1">
                                             </a>
                                             <div class="product_action_box">
@@ -504,8 +514,8 @@
                                         <div class="product_info">
                                             <h6 class="product_title"><a href="shop-product-detail.html">{{product.name}}</a></h6>
                                             <div class="product_price">
-                                                <span class="price">₦{{product.new_price|floatformat:2|intcomma}}</span>
-                                                <del>₦{{product.old_price|floatformat:2|intcomma}}</del>
+                                                <span class="price">£{{product.new_price|floatformat:2|intcomma}}</span>
+                                                <del>£{{product.old_price|floatformat:2|intcomma}}</del>
                                                 <div class="on_sale">
                                                     <span>
                                                         {{product.price_diff}}% Off</span>
@@ -810,8 +820,8 @@
                                         <div class="product_info">
                                             <h6 class="product_title"><a href="shop-product-detail.html">{{product.name}}</a></h6>
                                             <div class="product_price">
-                                                <span class="price">₦{{product.new_price|floatformat:2|intcomma}}</span>
-                                                <del>₦{{product.old_price|floatformat:2|intcomma}}</del>
+                                                <span class="price">£{{product.new_price|floatformat:2|intcomma}}</span>
+                                                <del>£{{product.old_price|floatformat:2|intcomma}}</del>
                                                 <div class="on_sale">
                                                     <span>
                                                         {{product.price_diff}}% Off</span>

@@ -31,7 +31,11 @@
                        	<ul class="header_list">
                         	<li><a href="compare.html"><i class="ti-control-shuffle"></i><span>Compare</span></a></li>
                             <li><a href="wishlist.html"><i class="ti-heart"></i><span>Wishlist</span></a></li>
-                            <li><a href="/auth/login-page"><i class="ti-user"></i><span>Login</span></a></li>
+                            {% if user %}
+                                <li><a href="/" class="nav-link"><i class="fa fa-lock-open"></i></a></li>
+                            {% else %}
+                                <li><a href="/auth/login-page"><i class="ti-user"></i><span>Login</span></a></li>
+                            {% endif %}
 						</ul>
                     </div>
                 </div>

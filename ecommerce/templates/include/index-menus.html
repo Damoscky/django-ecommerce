@@ -290,7 +290,11 @@
                         </ul>
                     </div>
                     <ul class="navbar-nav attr-nav align-items-center">
-                        <li><a href="/auth/login-page" class="nav-link"><i class="linearicons-user"></i></a></li>
+                        {% if user %}
+                            <li><a href="/" class="nav-link"><i class="fa fa-lock-open"></i></a></li>
+                        {% else %}
+                            <li><a href="/auth/login-page" class="nav-link"><i class="linearicons-user"></i></a></li>
+                        {% endif %}
                         <li><a href="#" class="nav-link"><i class="linearicons-heart"></i><span class="wishlist_count">0</span></a></li>
                         <li class="dropdown cart_dropdown"><a class="nav-link cart_trigger" href="#" data-toggle="dropdown"><i class="linearicons-cart"></i><span class="cart_count">2</span></a>
                             <div class="cart_box dropdown-menu dropdown-menu-right">

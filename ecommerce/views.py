@@ -7,12 +7,13 @@ import datetime
 from math import prod
 from django.forms import EmailField
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Product
 from django.conf import settings
 from .models import Cart, Category, SubCategory
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+
 
 
 #Authentication
@@ -25,7 +26,7 @@ def login(request):
         return render(request, 'auth/login-page.html')
     else:
         messages.success(request, "You're logged in successfully")
-        return render(request, '')
+        return render(request, 'home/index.html')
 
 
 def signUp(request):
@@ -97,22 +98,38 @@ def contact(request):
 def productDetails(request, id):
     try:
         product = Product.objects.get(pk=id)
+        relatedProducts = Product.objects.filter(category=product.category, is_active=True)
+        recentProducts = Product.objects.filter(is_active=True).order_by('-created_at')[:3]
+        categories = Category.objects.order_by('-name')
     except:
-        raise Http404("Invalid product Id")
-    return render(request, 'home/product-details.html', {'product': product})
+        messages.error(request, "Invalid Product Id")
+        return redirect('/')
+    return render(request, 'home/product-details.html', {'product': product, 'categories': categories, 'relatedProducts': relatedProducts, 'recentProducts': recentProducts})
 
-def addToCart(Request, id):
+def addToCart(request, id):
     try:
         product = Product.objects.get(pk=id)
     except:
         return Http404("Invalid Product Id")
     # return HttpResponse(product)
-    cart = Cart(
-        product_id = product.id,
-        user_id = settings.AUTH_USER_MODEL,
-        quantity = 1,
-        price = product.new_price,
-        total_price = product.new_price * 1
-    )
-    cart.save()
-    return HttpResponseRedirect('home/all-product.html')
+    if request.user.is_authenticated:
+        cart = Cart(
+            product_id = product,
+            user_id = request.user,
+            quantity = 1,
+            price = 30.00,
+            total_price = 40.00,
+            created_at = datetime.datetime.now(),
+            updated_at = datetime.datetime.now()
+        )
+        cart.save()
+        messages.info(request, "Item added to cart!")
+        return HttpResponseRedirect('/')
+    else:
+        messages.error(request, "User not authenticated! Please login")
+        return render(request, 'home/index.html')
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'home/index.html')
